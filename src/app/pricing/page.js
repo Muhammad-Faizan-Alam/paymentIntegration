@@ -114,7 +114,7 @@ export default function PricingPage() {
             <button
               onClick={() => handleSubscribe(plan.stripePriceId, plan.id)}
               disabled={loading === plan.id || !plan.stripePriceId}
-              aria-busy={loading === planId}
+              aria-busy={loading === plan.id}
             >
               {!plan.stripePriceId ? 'Not Available' : 
                loading === plan.id ? 'Processing...' : 'Subscribe'}
