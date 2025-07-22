@@ -18,7 +18,7 @@ export async function POST(request) {
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cancel`,
     });
-
+    console.log(NextResponse.json({ url: session.url }))
     return NextResponse.json({ url: session.url });
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });
