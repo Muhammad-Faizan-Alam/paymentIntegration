@@ -20,15 +20,19 @@ export async function POST(request) {
     }
 
     // Authentication check
-    const session = request.cookies.get('session')?.value;
-    if (!session) {
-      return NextResponse.json(
-        { error: 'Not authenticated' },
-        { status: 401 }
-      );
-    }
+    // const session = request.cookies.get('session')?.value;
+    // if (!session) {
+    //   return NextResponse.json(
+    //     { error: 'Not authenticated' },
+    //     { status: 401 }
+    //   );
+    // }
 
-    const user = JSON.parse(session).user;
+    // const user = JSON.parse(session).user;
+    const user = {
+      email: 'testuser@example.com' // Make sure this exists in your DB
+    };
+
     await connectToDB(); // Ensure DB connection
 
     // Get or create customer
