@@ -21,6 +21,7 @@ export async function POST(request) {
     console.log(NextResponse.json({ url: session.url }))
     return NextResponse.json({ url: session.url });
   } catch (err) {
+    console.log(err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
