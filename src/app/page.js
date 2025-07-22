@@ -2,24 +2,34 @@
 import { useRouter } from 'next/navigation';
 
 const plans = [
-  { name: 'Basic', price: 9, priceId: process.env.NEXT_PUBLIC_STRIPE_BASIC_PRICE_ID },
-  { name: 'Standard', price: 29, priceId: process.env.NEXT_PUBLIC_STRIPE_STANDARD_PRICE_ID },
-  { name: 'Premium', price: 99, priceId: process.env.NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID },
+  { name: 'Basic', price: 9, priceId: 'prod_Sj2Ac5SAZwoeNN' },
+  { name: 'Standard', price: 29, priceId: 'prod_Sj2CKaiHbl755x' },
+  { name: 'Premium', price: 99, priceId: 'prod_Sj2CTVFLlQnHRk' },
 ];
 
 export default function HomePage() {
   const router = useRouter();
 
   const handleSubscribe = async (priceId) => {
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      body: JSON.stringify({ priceId }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+    try {
+      console.log('🔁 Subscribing to priceId:', priceId);
 
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        body: JSON.stringify({ priceId }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const data = await res.json();
+      console.log('✅ Checkout response:', data);
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.warn('⚠️ No redirect URL returned from server.');
+      }
+    } catch (error) {
+      console.error('❌ Error in handleSubscribe:', error);
     }
   };
 
@@ -28,7 +38,10 @@ export default function HomePage() {
       <h1 className="text-4xl font-bold mb-6">Choose a Plan</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {plans.map((plan) => (
-          <div key={plan.name} className="p-6 border rounded-lg shadow-lg text-center">
+          <div
+            key={plan.name}
+            className="p-6 border rounded-lg shadow-lg text-center"
+          >
             <h2 className="text-2xl font-semibold mb-2">{plan.name}</h2>
             <p className="text-xl mb-4">${plan.price}/month</p>
             <button
