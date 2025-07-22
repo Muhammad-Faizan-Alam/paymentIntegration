@@ -1,3 +1,5 @@
+// lib/mongodb.js
+
 import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
@@ -21,4 +23,5 @@ if (process.env.NODE_ENV === 'development') {
   clientPromise = client.connect();
 }
 
-export default clientPromise;
+// ✅ Export it with a name
+export const connectToDB = () => clientPromise;
